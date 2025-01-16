@@ -201,7 +201,7 @@ function editTrip(tripId) {
   };
 }
 
-// Add or Overwrite a Trip
+// Add a New Trip (Prevent Overwriting)
 document.getElementById("tripInputForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -240,11 +240,24 @@ document.getElementById("tripInputForm").addEventListener("submit", function (e)
       const transaction = db.transaction("trips", "readwrite");
       const store = transaction.objectStore("trips");
 
-      // Save the trip directly (overwrite if it exists)
-      store.put(newTrip);
-      alert(`Trip ${tripId} has been successfully saved or updated!`);
-      document.getElementById("tripInputForm").reset();
-      displayAllTrips(); // Refresh the list of all trips
+      // Check if the trip ID already exists
+      const checkRequest = store.get(tripId);
+      checkRequest.onsuccess = function () {
+        if (checkRequest.result) {
+          // Trip ID already exists, prevent overwriting
+          alert(`Trip ${tripId} already exists. Please use a different Trip ID.`);
+        } else {
+          // Trip ID does not exist, save the new trip
+          store.put(newTrip);
+          alert(`Trip ${tripId} has been successfully added!`);
+          document.getElementById("tripInputForm").reset();
+          displayAllTrips(); // Refresh the list of all trips
+        }
+      };
+
+      checkRequest.onerror = function () {
+        console.error("Error checking trip ID:", checkRequest.error);
+      };
     };
 
     dbRequest.onerror = function () {
@@ -252,6 +265,8 @@ document.getElementById("tripInputForm").addEventListener("submit", function (e)
     };
   });
 });
+
+
 
 
 

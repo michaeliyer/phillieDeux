@@ -1,6 +1,6 @@
-# PhillieUno
+# PhillieDeux
 
-**PhillieUno** is a web-based trip logging application that allows users to:
+**PhillieDeux** is a web-based trip logging application that allows users to:
 - Add and store trip details (location, date, notes, etc.).
 - Upload and manage trip photos with thumbnails.
 - Organize notes by categories such as food, activities, and expenses.
@@ -14,7 +14,7 @@
 ## Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/phillieUno.git
+   git clone https://github.com/username/phillieDeux.git
 
 
 
@@ -23,7 +23,7 @@
 - **Reset Database**:
   - Use the following JavaScript function to reset the IndexedDB database:
     ```javascript
-    indexedDB.deleteDatabase("phillieUnoDB");
+    indexedDB.deleteDatabase("phillieDeuxDB");
     ```
   - Alternatively, uncomment the `resetDatabase()` function in `dev-tools.js` to enable it in the app.
 
