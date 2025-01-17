@@ -387,6 +387,40 @@ dbRequest.onerror = function () {
   console.error("Error opening IndexedDB:", dbRequest.error);
 };
 
+
+
+
+// // Fetch and Display a Trip by ID
+document.getElementById("tripForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const tripNumber = parseInt(document.getElementById("tripNumber").value);
+  const dbRequest = indexedDB.open("phillieDeuxDB", 2);
+
+  dbRequest.onsuccess = function (event) {
+    const db = event.target.result;
+    const transaction = db.transaction("trips", "readonly");
+    const store = transaction.objectStore("trips");
+
+    const request = store.get(tripNumber);
+    request.onsuccess = function () {
+      const trip = request.result;
+      if (trip) {
+        displayTrip(trip);
+      } else {
+        alert("Trip not found.");
+      }
+    };
+  };
+});
+
+
+
+
+
+
+
+
 // Add or Edit Trip
 document.getElementById("tripInputForm").addEventListener("submit", function (e) {
   e.preventDefault();
